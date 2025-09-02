@@ -13,6 +13,7 @@ import os
 import shutil
 import subprocess
 import time
+import logging
 from urllib.error import URLError
 from urllib.request import urlopen
 
@@ -21,6 +22,11 @@ PATREON_URL = "https://www.patreon.com/home"
 NETWORK_TIMEOUT = int(os.getenv("NETWORK_TIMEOUT", "60"))
 _CONNECTIVITY_CHECK_URL = "https://www.google.com"  # Any reliable site works
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s: %(message)s",
+)
+
 
 def wait_for_network(timeout: int = NETWORK_TIMEOUT) -> None:
     """Block until HTTP connectivity is available or the timeout expires."""
@@ -28,9 +34,12 @@ def wait_for_network(timeout: int = NETWORK_TIMEOUT) -> None:
     while time.time() < end:
         try:
             urlopen(_CONNECTIVITY_CHECK_URL, timeout=5)
+            logging.info("Network connectivity established")
             return
         except URLError:
+            logging.info("Waiting for network...")
             time.sleep(1)
+    logging.warning("Network not available after %s seconds", timeout)
 
 
 def _find_chromium() -> str:
@@ -50,7 +59,12 @@ def main() -> None:
         cmd.append("--kiosk")
     cmd.append(PATREON_URL)
 
-    subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    logging.info("Launching Chromium: %s", " ".join(cmd))
+    try:
+        subprocess.Popen(cmd)
+        logging.info("Chromium launched")
+    except Exception:  # pragma: no cover - log unexpected launch failures
+        logging.exception("Failed to launch Chromium")
 
 
 if __name__ == "__main__":
