@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Install autostart entry for launcher.py
 
-PI_HOME="${PI_HOME:-/home/pi}"
+PI_HOME="${PI_HOME:-/home/myk410}"
 AUTOSTART_DIR="$PI_HOME/.config/autostart"
 DESKTOP_FILE="$AUTOSTART_DIR/launcher.desktop"
 
@@ -13,7 +13,7 @@ cat > "$DESKTOP_FILE" <<EOF
 [Desktop Entry]
 Type=Application
 Name=Patreon Launcher
-Exec=python3 $PI_HOME/patreon-tv-box/app/launcher.py
+Exec=python3 $PI_HOME/Pi-Patreon/app/launcher.py
 X-GNOME-Autostart-enabled=true
 EOF
 
