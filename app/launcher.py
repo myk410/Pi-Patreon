@@ -27,8 +27,8 @@ def get_ip_address() -> Optional[str]:
         ).strip()
         if output:
             return output.split()[3].split("/")[0]
-    except (subprocess.CalledProcessError, IndexError):
-        pass
+    except (subprocess.CalledProcessError, OSError, IndexError):
+        print("ip command failed or wlan0 unavailable")
 
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
@@ -75,7 +75,7 @@ def main() -> None:
             button.config(state=tk.DISABLED)
         root.after(POLL_INTERVAL_MS, poll_ip)
 
-    poll_ip()
+    root.after(0, poll_ip)
     root.mainloop()
 
 
