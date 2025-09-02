@@ -5,8 +5,7 @@ Patreon TV Box (Raspberry Pi 5)
 
 ## High-Level Goal
 Turn a Raspberry Pi 5 into a “Patreon TV box”:
-- On login, **show a small popup with the Pi’s IP address first**
-- When the user clicks the **Close / Open Patreon** button, **launch Chromium in fullscreen kiosk mode to Patreon** (using a stored Google login session)
+- On login, **launch Chromium in fullscreen kiosk mode to Patreon** (using a stored Google login session)
 - Support Google Sign-In by reusing Chromium’s persisted profile/session
 - Allow remote control of the Pi from an iPhone via **VNC**
 - Keep the Pi **in sync with GitHub** using an auto-pull timer
@@ -15,20 +14,14 @@ Turn a Raspberry Pi 5 into a “Patreon TV box”:
 
 ## Updated UX Flow
 1. Raspberry Pi boots to Desktop.
-2. **Popup window appears** (always on top) showing:
-   - LAN IP address (auto-detected)
-   - A disabled “Open Patreon” button until the IP is found
-3. Once IP is available, **button becomes active**.
-4. Clicking the button:
-   - Closes the popup
-   - Launches Chromium with:
-     ```bash
-     chromium-browser --kiosk https://www.patreon.com/home
-     ```
-     - Uses the existing Chromium profile so Google login persists
+2. `launcher.py` waits for network connectivity and launches Chromium with:
+   ```bash
+   chromium-browser --kiosk https://www.patreon.com/home
+   ```
+   - Uses the existing Chromium profile so Google login persists
    - If the user is not signed in, the agent should open normal (non-kiosk) Chromium for the first login, then kiosk mode thereafter.
-5. User watches Patreon content fullscreen on TV via HDMI.
-6. Remote control via VNC is available from iPhone/Mac.
+3. User watches Patreon content fullscreen on TV via HDMI.
+4. Remote control via VNC is available from iPhone/Mac.
 
 ---
 
@@ -37,7 +30,7 @@ Turn a Raspberry Pi 5 into a “Patreon TV box”:
 ├─ agents.md                 # This file
 ├─ README.md                 # Project documentation
 ├─ app/
-│  └─ launcher.py            # Main script: popup first → launches Chromium on button press
+│  └─ launcher.py            # Main script: launches Chromium on boot
 ├─ scripts/
 │  ├─ install_autostart.sh   # Installs single autostart entry for launcher.py
 │  ├─ setup_vnc.sh           # Enables/configures VNC
@@ -55,7 +48,7 @@ Turn a Raspberry Pi 5 into a “Patreon TV box”:
 - **Branching:** `main` is always deployable; feature branches merged via PR.
 - **Commits:** Use Conventional Commits style (`feat:`, `fix:`, `docs:`, etc.).
 - **Shell scripts:** `bash`, with `set -euo pipefail`, include inline comments.
-- **Python:** 3.11+, standard library only (Tkinter for UI, `subprocess` to launch Chromium).
+- **Python:** 3.11+, standard library only (`subprocess` to launch Chromium).
 - **Paths:** Assume user `pi`, home `/home/pi`, but make configurable via env vars where possible.
 
 ---
@@ -74,18 +67,9 @@ Turn a Raspberry Pi 5 into a “Patreon TV box”:
 ## Tasks
 
 ### 1. Create `app/launcher.py`
-- Tkinter window:
-  - Always-on-top
-  - Shows IP address (updates until valid)
-  - “Open Patreon” button starts disabled, enabled when IP found
-  - Clicking the button:
-    - Closes Tkinter window
-    - Runs:
-      ```bash
-      chromium-browser --kiosk https://www.patreon.com/home
-      ```
-      (or non-kiosk if first-time Google login needed)
-- Detect no network case: display “No network” until resolved
+- Wait for network connectivity (with a timeout)
+- Launch Chromium to `https://www.patreon.com/home`
+- Use kiosk mode unless `PATRON_FIRST_LOGIN=1`
 
 ### 2. Autostart `launcher.py` on login
 - `scripts/install_autostart.sh`:
@@ -119,7 +103,8 @@ Turn a Raspberry Pi 5 into a “Patreon TV box”:
 ## Commands Agent May Run
 ```bash
 sudo apt update
-sudo apt install -y git python3-tk chromium-browser
+sudo apt install -y git python3 chromium-browser
 bash scripts/install_autostart.sh
 bash scripts/setup_vnc.sh
 bash scripts/enable_git_autopull.sh
+```
