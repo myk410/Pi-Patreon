@@ -1,43 +1,56 @@
 #!/usr/bin/env python3
-"""Simplified launcher for the Patreon TV box.
+"""Launch Chromium to Patreon for the TV box.
 
-This script waits briefly for network connectivity and then launches
-Chromium to Patreon.  The previous Tkinter popup and IP display have
-been removed because the device now uses a static IP address.
+The script waits for basic network connectivity and then opens Chromium to
+the Patreon homepage.  Kiosk mode is used by default so the browser fills the
+screen, but setting ``PATRON_FIRST_LOGIN=1`` disables kiosk mode to make the
+initial Google sign-in easier.
 """
 
 from __future__ import annotations
 
 import os
-import socket
+import shutil
 import subprocess
 import time
+from urllib.error import URLError
+from urllib.request import urlopen
 
 
-NETWORK_WAIT_SECONDS = 15
 PATREON_URL = "https://www.patreon.com/home"
+NETWORK_TIMEOUT = int(os.getenv("NETWORK_TIMEOUT", "60"))
+_CONNECTIVITY_CHECK_URL = "https://www.google.com"  # Any reliable site works
 
 
-def wait_for_network() -> None:
-    """Block until basic network connectivity is available or timeout."""
-    for _ in range(NETWORK_WAIT_SECONDS):
+def wait_for_network(timeout: int = NETWORK_TIMEOUT) -> None:
+    """Block until HTTP connectivity is available or the timeout expires."""
+    end = time.time() + timeout
+    while time.time() < end:
         try:
-            with socket.create_connection(("8.8.8.8", 80), timeout=1):
-                return
-        except OSError:
+            urlopen(_CONNECTIVITY_CHECK_URL, timeout=5)
+            return
+        except URLError:
             time.sleep(1)
+
+
+def _find_chromium() -> str:
+    """Return the first available Chromium executable."""
+    for name in ("chromium-browser", "chromium"):
+        path = shutil.which(name)
+        if path:
+            return path
+    raise FileNotFoundError("Chromium executable not found")
 
 
 def main() -> None:
     wait_for_network()
 
-    kiosk = os.getenv("PATRON_FIRST_LOGIN", "0") != "1"
-    cmd = ["chromium-browser"]
-    if kiosk:
+    cmd = [_find_chromium()]
+    if os.getenv("PATRON_FIRST_LOGIN", "0") != "1":
         cmd.append("--kiosk")
     cmd.append(PATREON_URL)
 
-    subprocess.Popen(cmd)
+    subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 if __name__ == "__main__":
