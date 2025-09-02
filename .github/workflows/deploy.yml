@@ -10,17 +10,42 @@ jobs:
     runs-on: [self-hosted, pi]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Copy the checked-out code to your live folder
+      - name: Define paths
+        id: paths
+        run: |
+          echo "PI_TARGET=/home/myk410/Pi-Patreon" >> $GITHUB_ENV
+          echo "BACKUP_ROOT=/home/myk410/Pi-Patreon-backups" >> $GITHUB_ENV
+          echo "STAMP=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+
+      # Optional: pre-deploy backup (keeps last 5 backups)
+      - name: Pre-deploy backup (if target has content)
+        run: |
+          mkdir -p "$BACKUP_ROOT"
+          if [ -d "$PI_TARGET" ] && [ "$(ls -A "$PI_TARGET" 2>/dev/null)" ]; then
+            BACKUP_DIR="$BACKUP_ROOT/$STAMP"
+            mkdir -p "$BACKUP_DIR"
+            rsync -rlDz \
+              --delete \
+              --omit-dir-times \
+              --no-o --no-g \
+              "$PI_TARGET"/ "$BACKUP_DIR"/
+            # rotate: keep last 5 backups
+            ls -1dt "$BACKUP_ROOT"/* 2>/dev/null | tail -n +6 | xargs -r rm -rf
+            echo "Backed up to: $BACKUP_DIR"
+          else
+            echo "No existing content to back up."
+          fi
+
       - name: Sync to /home/myk410/Pi-Patreon
-        env:
-          PI_TARGET: /home/myk410/Pi-Patreon
         run: |
           mkdir -p "$PI_TARGET"
-          rsync -rltDz --delete \
+          rsync -rlDz --delete \
+            --omit-dir-times \
             --no-o --no-g \
             --exclude ".git/" \
             --exclude ".github/" \
@@ -29,11 +54,12 @@ jobs:
             --exclude "*.log" \
             ./ "$PI_TARGET/"
 
-      # (Optional) post-deploy hook (install deps, build, migrate, etc.)
+      # (Optional) post-deploy hook (install deps / build / migrate)
       - name: Post-deploy
         run: |
-          cd /home/myk410/Pi-Patreon
+          cd "$PI_TARGET"
           echo "Post-deploy steps go here"
+          # examples:
           # python3 -m venv venv && venv/bin/pip install -r requirements.txt
           # npm ci && npm run build
 
