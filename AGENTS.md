@@ -67,6 +67,7 @@ Turn a Raspberry Pi 5 into a “Patreon TV box”:
 - Chromium browser installed
 - Git installed
 - VNC server enabled (RealVNC preferred)
+- Repository synced at `/home/myk410/Pi-Patreon`
 
 ---
 
