@@ -1,7 +1,7 @@
 # Agents Guide
 
 ## Project Name
-Patreon TV Box (Raspberry Pi 5)
+Patreon TV Box (Raspberry Pi-5)
 
 ## High-Level Goal
 Turn a Raspberry Pi 5 into a “Patreon TV box”:
