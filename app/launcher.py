@@ -14,8 +14,13 @@ from urllib.request import urlopen
 PATREON_URL = "https://www.patreon.com/home"
 NETWORK_TIMEOUT = int(os.getenv("NETWORK_TIMEOUT", "60"))
 CONNECTIVITY_CHECK_URL = "https://www.google.com"
+LOG_PATH = os.path.join(os.path.dirname(__file__), "launcher.log")
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s: %(message)s",
+    handlers=[logging.FileHandler(LOG_PATH), logging.StreamHandler()],
+)
 
 def wait_for_network(timeout: int = NETWORK_TIMEOUT) -> None:
     end = time.time() + timeout
@@ -46,7 +51,7 @@ def main() -> None:
     wait_for_network()
 
     browser = find_chromium()
-    kiosk = os.getenv("PATRON_FIRST_LOGIN", "0") != "1"
+    kiosk = os.getenv("PATRON_KIOSK") == "1"
 
     cmd = [
         browser,
@@ -60,7 +65,8 @@ def main() -> None:
 
     logging.info("Launching Chromium: %s", " ".join(cmd))
     try:
-        subprocess.Popen(cmd)
+        with open(LOG_PATH, "a") as log_file:
+            subprocess.Popen(cmd, stdout=log_file, stderr=log_file)
         logging.info("Chromium launched")
     except Exception:
         logging.exception("Failed to launch Chromium")
