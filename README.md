@@ -3,7 +3,7 @@
 Turn your Raspberry Pi 5 into a Patreon TV box.
 
 **Features:**
-- On login, Chromium automatically launches in fullscreen kiosk mode to Patreon.
+- On login, Chromium automatically launches to Patreon (fullscreen by default).
 - Supports Google Sign-In by keeping Chromium’s profile intact between sessions.
 - Remote control the Pi from iPhone or Mac via VNC.
 - Auto-sync with this GitHub repo using a systemd timer.
@@ -12,10 +12,11 @@ Turn your Raspberry Pi 5 into a Patreon TV box.
 
 ## How It Works
 1. Pi boots to Desktop.
-2. `launcher.py` waits for network connectivity and then launches Chromium in kiosk mode to `https://www.patreon.com/home`.
-   - Set `PATRON_FIRST_LOGIN=1` to temporarily disable kiosk mode for the first Google sign-in.
+2. `launcher.py` waits for network connectivity and then launches Chromium to `https://www.patreon.com/home`.
+   - `PATRON_FULLSCREEN` (default `1`) controls fullscreen; set to `0` for a normal window.
+   - `PATRON_KIOSK=1` launches in kiosk mode.
    - Adjust `NETWORK_TIMEOUT` (seconds) if your connection takes longer to come up.
-3. Videos play fullscreen on your TV via HDMI.
+3. Videos play on your TV via HDMI.
 4. If the Git auto-pull timer is enabled, changes to this repo will appear on the Pi within 60 seconds.
 
 ---
