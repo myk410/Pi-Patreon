@@ -44,7 +44,7 @@ def wait_for_network(timeout: int = NETWORK_TIMEOUT) -> None:
 
 def _find_chromium() -> str:
     """Return the first available Chromium executable."""
-    for name in ("chromium-browser", "chromium"):
+    for name in ("chromium", "chromium-browser"):
         path = shutil.which(name)
         if path:
             return path
