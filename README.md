@@ -12,7 +12,9 @@ Turn your Raspberry Pi 5 into a Patreon TV box.
 
 ## How It Works
 1. Pi boots to Desktop.
-2. `launcher.py` waits briefly for network connectivity and then launches Chromium in kiosk mode to `https://www.patreon.com/home`.
+2. `launcher.py` waits for network connectivity and then launches Chromium in kiosk mode to `https://www.patreon.com/home`.
+   - Set `PATRON_FIRST_LOGIN=1` to temporarily disable kiosk mode for the first Google sign-in.
+   - Adjust `NETWORK_TIMEOUT` (seconds) if your connection takes longer to come up.
 3. Videos play fullscreen on your TV via HDMI.
 4. If the Git auto-pull timer is enabled, changes to this repo will appear on the Pi within 60 seconds.
 
