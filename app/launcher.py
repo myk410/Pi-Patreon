@@ -15,7 +15,21 @@ PATREON_URL = "https://www.patreon.com/home"
 
 
 def get_ip_address() -> Optional[str]:
-    """Return the LAN IP address or ``None`` if not available."""
+    """Return the Wi-Fi (wlan0) IP address or fall back to LAN.
+
+    The function prefers the Wi-Fi interface but will return the
+    default route's address if Wi-Fi is unavailable. ``None`` is
+    returned when no network address can be determined.
+    """
+    try:
+        output = subprocess.check_output(
+            ["ip", "-4", "-o", "addr", "show", "wlan0"], text=True
+        ).strip()
+        if output:
+            return output.split()[3].split("/")[0]
+    except (subprocess.CalledProcessError, IndexError):
+        pass
+
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
             # Connect to an external host; we don't actually send data
