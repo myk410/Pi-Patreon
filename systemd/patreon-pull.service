@@ -1,0 +1,8 @@
+[Unit]
+Description=Pull latest code for Patreon TV box
+
+[Service]
+Type=oneshot
+User=pi
+WorkingDirectory=/home/pi/patreon-tv-box
+ExecStart=/usr/bin/git pull --ff-only
