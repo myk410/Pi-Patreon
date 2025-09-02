@@ -6,13 +6,14 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, pi]   # this is why we set the labels
+    runs-on: [self-hosted, pi]
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Sync to target dir
+      # Copy the checked-out code to your live folder
+      - name: Sync to /home/myk410/Pi-Patreon
         env:
           PI_TARGET: /home/myk410/Pi-Patreon
         run: |
@@ -20,9 +21,23 @@ jobs:
           rsync -az --delete \
             --exclude ".git/" \
             --exclude ".github/" \
+            --exclude "node_modules/" \
+            --exclude "__pycache__/" \
+            --exclude "*.log" \
             ./ "$PI_TARGET/"
 
-      - name: Optional: restart app service
+      # (Optional) post-deploy hook (install deps, build, migrate, etc.)
+      - name: Post-deploy
+        run: |
+          cd /home/myk410/Pi-Patreon
+          echo "Post-deploy steps go here"
+          # examples:
+          # python3 -m venv venv && venv/bin/pip install -r requirements.txt
+          # npm ci && npm run build
+
+      # (Optional) restart your app's systemd service
+      - name: Restart service
         run: |
           sudo systemctl daemon-reload || true
           sudo systemctl restart pi-patreon.service || true
+          sudo systemctl --no-pager -l status pi-patreon.service | tail -n 50 || true
