@@ -6,11 +6,13 @@ from __future__ import annotations
 import os
 import socket
 import subprocess
+import time
 import tkinter as tk
 from typing import Optional
 
 
 POLL_INTERVAL_MS = 1000  # How often to poll for IP address
+NETWORK_WAIT_SECONDS = 15  # Max seconds to wait for network on startup
 PATREON_URL = "https://www.patreon.com/home"
 
 
@@ -39,6 +41,14 @@ def get_ip_address() -> Optional[str]:
         return None
 
 
+def wait_for_network() -> None:
+    """Delay startup until a network address is available or timeout."""
+    for _ in range(NETWORK_WAIT_SECONDS):
+        if get_ip_address():
+            return
+        time.sleep(1)
+
+
 def open_patreon(root: tk.Tk) -> None:
     """Close the popup and launch Chromium."""
     root.destroy()
@@ -52,6 +62,7 @@ def open_patreon(root: tk.Tk) -> None:
 
 
 def main() -> None:
+    wait_for_network()
     root = tk.Tk()
     root.title("Patreon Launcher")
     root.attributes("-topmost", True)
