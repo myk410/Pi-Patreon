@@ -16,14 +16,12 @@ jobs:
           fetch-depth: 0
 
       - name: Define paths
-        id: paths
         run: |
           echo "PI_TARGET=/home/myk410/Pi-Patreon" >> $GITHUB_ENV
-          echo "BACKUP_ROOT=/home/myk410/Pi-Patreon-backups" >> $GITHUB_ENV
+          echo "BACKUP_ROOT=/home/github-runner/Pi-Patreon-backups" >> $GITHUB_ENV
           echo "STAMP=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
 
-      # Optional: pre-deploy backup (keeps last 5 backups)
-      - name: Pre-deploy backup (if target has content)
+      - name: Pre-deploy backup (keep last 5)
         run: |
           mkdir -p "$BACKUP_ROOT"
           if [ -d "$PI_TARGET" ] && [ "$(ls -A "$PI_TARGET" 2>/dev/null)" ]; then
@@ -34,7 +32,6 @@ jobs:
               --omit-dir-times \
               --no-o --no-g \
               "$PI_TARGET"/ "$BACKUP_DIR"/
-            # rotate: keep last 5 backups
             ls -1dt "$BACKUP_ROOT"/* 2>/dev/null | tail -n +6 | xargs -r rm -rf
             echo "Backed up to: $BACKUP_DIR"
           else
@@ -54,16 +51,13 @@ jobs:
             --exclude "*.log" \
             ./ "$PI_TARGET/"
 
-      # (Optional) post-deploy hook (install deps / build / migrate)
       - name: Post-deploy
         run: |
           cd "$PI_TARGET"
           echo "Post-deploy steps go here"
-          # examples:
           # python3 -m venv venv && venv/bin/pip install -r requirements.txt
           # npm ci && npm run build
 
-      # (Optional) restart your app's systemd service
       - name: Restart service
         run: |
           sudo systemctl daemon-reload || true
