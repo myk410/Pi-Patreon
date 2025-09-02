@@ -1,12 +1,14 @@
 name: Deploy
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
-  
+
 jobs:
   deploy:
     runs-on: [self-hosted, pi]
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -18,7 +20,8 @@ jobs:
           PI_TARGET: /home/myk410/Pi-Patreon
         run: |
           mkdir -p "$PI_TARGET"
-          rsync -az --delete \
+          rsync -rltDz --delete \
+            --no-o --no-g \
             --exclude ".git/" \
             --exclude ".github/" \
             --exclude "node_modules/" \
@@ -31,7 +34,6 @@ jobs:
         run: |
           cd /home/myk410/Pi-Patreon
           echo "Post-deploy steps go here"
-          # examples:
           # python3 -m venv venv && venv/bin/pip install -r requirements.txt
           # npm ci && npm run build
 
