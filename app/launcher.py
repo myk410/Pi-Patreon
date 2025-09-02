@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Launch Chromium to Patreon for the TV box.
-
-The script waits for basic network connectivity and then opens Chromium to
-the Patreon homepage.  Kiosk mode is used by default so the browser fills the
-screen, but setting ``PATRON_FIRST_LOGIN=1`` disables kiosk mode to make the
-initial Google sign-in easier.
-"""
+"""Launch Chromium to Patreon for the TV box (Pi + VNC/desktop)."""
 
 from __future__ import annotations
 
@@ -17,23 +11,17 @@ import logging
 from urllib.error import URLError
 from urllib.request import urlopen
 
-
 PATREON_URL = "https://www.patreon.com/home"
 NETWORK_TIMEOUT = int(os.getenv("NETWORK_TIMEOUT", "60"))
-_CONNECTIVITY_CHECK_URL = "https://www.google.com"  # Any reliable site works
+CONNECTIVITY_CHECK_URL = "https://www.google.com"
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s %(levelname)s: %(message)s",
-)
-
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
 
 def wait_for_network(timeout: int = NETWORK_TIMEOUT) -> None:
-    """Block until HTTP connectivity is available or the timeout expires."""
     end = time.time() + timeout
     while time.time() < end:
         try:
-            urlopen(_CONNECTIVITY_CHECK_URL, timeout=5)
+            urlopen(CONNECTIVITY_CHECK_URL, timeout=5)
             logging.info("Network connectivity established")
             return
         except URLError:
@@ -41,21 +29,32 @@ def wait_for_network(timeout: int = NETWORK_TIMEOUT) -> None:
             time.sleep(1)
     logging.warning("Network not available after %s seconds", timeout)
 
-
-def _find_chromium() -> str:
-    """Return the first available Chromium executable."""
+def find_chromium() -> str:
     for name in ("chromium", "chromium-browser"):
         path = shutil.which(name)
         if path:
+            logging.info("Using browser binary: %s", path)
             return path
-    raise FileNotFoundError("Chromium executable not found")
-
+    raise FileNotFoundError("Chromium executable not found (install 'chromium').")
 
 def main() -> None:
+    # Don’t try to open a GUI unless we’re in a desktop session
+    if not os.environ.get("DISPLAY"):
+        logging.warning("No DISPLAY; desktop session not ready. Skipping launch.")
+        return
+
     wait_for_network()
 
-    cmd = [_find_chromium()]
-    if os.getenv("PATRON_FIRST_LOGIN", "0") != "1":
+    browser = find_chromium()
+    kiosk = os.getenv("PATRON_FIRST_LOGIN", "0") != "1"
+
+    cmd = [
+        browser,
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--password-store=basic",
+    ]
+    if kiosk:
         cmd.append("--kiosk")
     cmd.append(PATREON_URL)
 
@@ -63,10 +62,8 @@ def main() -> None:
     try:
         subprocess.Popen(cmd)
         logging.info("Chromium launched")
-    except Exception:  # pragma: no cover - log unexpected launch failures
+    except Exception:
         logging.exception("Failed to launch Chromium")
-
 
 if __name__ == "__main__":
     main()
-
