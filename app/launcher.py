@@ -51,7 +51,7 @@ def main() -> None:
     wait_for_network()
 
     browser = find_chromium()
-    kiosk = os.getenv("PATRON_KIOSK") == "1"
+    first_login = os.getenv("PATRON_FIRST_LOGIN") == "1"
 
     cmd = [
         browser,
@@ -59,8 +59,10 @@ def main() -> None:
         "--no-default-browser-check",
         "--password-store=basic",
     ]
-    if kiosk:
+
+    if not first_login:
         cmd.append("--kiosk")
+
     cmd.append(PATREON_URL)
 
     logging.info("Launching Chromium: %s", " ".join(cmd))
