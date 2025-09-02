@@ -38,3 +38,10 @@ Turn your Raspberry Pi 5 into a Patreon TV box.
    ```bash
    sudo apt update
    sudo apt install -y git python3-tk chromium-browser
+   ```
+2. Set up autostart, VNC and git auto-pull:
+   ```bash
+   bash scripts/install_autostart.sh
+   bash scripts/setup_vnc.sh
+   bash scripts/enable_git_autopull.sh
+   ```

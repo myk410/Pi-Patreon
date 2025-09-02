@@ -1,0 +1,10 @@
+[Unit]
+Description=Run patreon-pull.service every minute
+
+[Timer]
+OnBootSec=30
+OnUnitActiveSec=60
+Unit=patreon-pull.service
+
+[Install]
+WantedBy=timers.target
