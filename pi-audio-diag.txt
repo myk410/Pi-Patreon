@@ -1,0 +1,458 @@
+===== TIMESTAMP =====
+2025-09-02T21:40:56-04:00
+===== USER/ENV =====
+uid=1000(myk410) gid=1000(myk410) groups=1000(myk410),4(adm),20(dialout),24(cdrom),27(sudo),29(audio),44(video),46(plugdev),60(games),100(users),102(input),105(render),110(netdev),115(lpadmin),993(gpio),994(i2c),995(spi)
+DISPLAY=  XDG_SESSION_TYPE=tty  XDG_CURRENT_DESKTOP=
+===== OS =====
+Linux myk410 6.12.34+rpt-rpi-2712 #1 SMP PREEMPT Debian 1:6.12.34-1+rpt1~bookworm (2025-06-26) aarch64 GNU/Linux
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+VERSION="12 (bookworm)"
+ID=debian
+===== Kernel cmdline =====
+reboot=w coherent_pool=1M 8250.nr_uarts=1 pci=pcie_bus_safe cgroup_disable=memory numa_policy=interleave nvme.max_host_mem_size_mb=0  numa=fake=8 system_heap.max_order=0 smsc95xx.macaddr=2C:CF:67:18:2C:1F vc_mem.mem_base=0x3fc00000 vc_mem.mem_size=0x40000000  console=ttyAMA10,115200 console=tty1 root=PARTUUID=d85b469c-02 rootfstype=ext4 fsck.repair=yes rootwait quiet splash plymouth.ignore-serial-consoles cfg80211.ieee80211_regdom=US video=HDMI-A-1:1920x1080@60D
+===== /boot/firmware/config.txt =====
+# For more options and information see
+# http://rptl.io/configtxt
+# Some settings may impact device functionality. See link above for details
+
+# Uncomment some or all of these to enable the optional hardware interfaces
+#dtparam=i2c_arm=on
+#dtparam=i2s=on
+#dtparam=spi=on
+
+# Enable audio (loads snd_bcm2835)
+
+# Additional overlays and parameters are documented
+# /boot/firmware/overlays/README
+
+# Automatically load overlays for detected cameras
+camera_auto_detect=1
+
+# Automatically load overlays for detected DSI displays
+display_auto_detect=1
+
+# Automatically load initramfs files, if found
+auto_initramfs=1
+
+# Enable DRM VC4 V3D driver
+dtoverlay=vc4-kms-v3d
+max_framebuffers=2
+
+# Don't have the firmware create an initial video= setting in cmdline.txt.
+# Use the kernel's default instead.
+disable_fw_kms_setup=1
+
+# Run in 64-bit mode
+arm_64bit=1
+
+# Disable compensation for displays with overscan
+
+# Run as fast as firmware / board allows
+arm_boost=1
+
+[cm4]
+# Enable host mode on the 2711 built-in XHCI USB controller.
+# This line should be removed if the legacy DWC2 controller is required
+# (e.g. for USB device mode) or if USB support is not required.
+otg_mode=1
+
+[cm5]
+dtoverlay=dwc2,dr_mode=host
+
+[all]
+disable_overscan=1
+hdmi_force_hotplug=1
+hdmi_drive=2
+dtparam=audio=on
+hdmi_group=1
+hdmi_mode=16
+===== vcgencmd (if present) =====
+2025/05/08 15:13:17 
+Copyright (c) 2012 Broadcom
+version 69471177 (release) (embedded)
+arm_64bit=1
+arm_boost=1
+arm_freq=2400
+arm_freq_min=1500
+arm_peri_high=1
+audio_pwm_mode=2
+auto_initramfs=1
+avs_temp=46073
+camera_auto_detect=1
+core_freq=910
+core_freq_min=500
+disable_commandline_tags=2
+disable_fw_kms_setup=1
+disable_l2cache=1
+disable_overscan=1
+display_auto_detect=1
+display_default_lcd=-1
+display_hdmi_rotate=-1
+display_lcd_rotate=-1
+dvfs=4
+enable_gic=1
+force_eeprom_read=1
+force_pwm_open=1
+framebuffer_depth=16
+framebuffer_ignore_alpha=1
+framebuffer_swap=1
+gpu_freq_min=500
+hdmi_enable_4kp60=1
+hevc_freq=910
+hevc_freq_min=500
+ignore_lcd=-1
+init_uart_clock=0x2dc6c00
+initial_turbo=60
+isp_freq=910
+isp_freq_min=500
+mask_gpu_interrupt1=16418
+max_framebuffers=2
+over_voltage_avs=55600
+pause_burst_frames=1
+pciex4_reset=1
+pmic_turbo_threshold=600
+program_serial_random=1
+total_mem=8192
+usb_max_current_enable=1
+v3d_freq=960
+v3d_freq_min=500
+vpred=8156
+vpred_max=8156
+hdmi_drive:0=2
+hdmi_force_cec_address:0=65535
+hdmi_force_cec_address:1=65535
+hdmi_force_hotplug:0=1
+hdmi_group:0=1
+hdmi_mode:0=16
+throttled=0x0
+===== Loaded modules (audio/display) =====
+backlight              49152  2 drm_kms_helper,drm
+bluetooth             638976  26 hci_uart,btbcm,bnep
+btbcm                  49152  1 hci_uart
+cec                    65536  1 vc4
+drm                   688128  18 gpu_sched,drm_kms_helper,drm_dma_helper,v3d,vc4,drm_shmem_helper,drm_display_helper
+drm_display_helper     49152  1 vc4
+drm_dma_helper         49152  2 vc4
+drm_kms_helper        245760  3 drm_dma_helper,vc4,drm_shmem_helper
+drm_panel_orientation_quirks    65536  1 drm
+drm_shmem_helper       49152  1 v3d
+snd                   131072  5 snd_soc_hdmi_codec,snd_timer,snd_compress,snd_soc_core,snd_pcm
+snd_compress           49152  1 snd_soc_core
+snd_pcm               147456  4 snd_soc_hdmi_codec,snd_compress,snd_soc_core,snd_pcm_dmaengine
+snd_pcm_dmaengine      49152  1 snd_soc_core
+snd_soc_core          311296  2 vc4,snd_soc_hdmi_codec
+snd_soc_hdmi_codec     49152  2
+snd_timer              65536  1 snd_pcm
+spi_bcm2835            49152  0
+vc4                   425984  12
+===== ALSA CARDS =====
+ 0 [vc4hdmi0       ]: vc4-hdmi - vc4-hdmi-0
+                      vc4-hdmi-0
+ 1 [vc4hdmi1       ]: vc4-hdmi - vc4-hdmi-1
+                      vc4-hdmi-1
+===== ALSA PCM =====
+00-00: MAI PCM i2s-hifi-0 : MAI PCM i2s-hifi-0 : playback 1
+01-00: MAI PCM i2s-hifi-0 : MAI PCM i2s-hifi-0 : playback 1
+===== aplay -l =====
+**** List of PLAYBACK Hardware Devices ****
+card 0: vc4hdmi0 [vc4-hdmi-0], device 0: MAI PCM i2s-hifi-0 [MAI PCM i2s-hifi-0]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: vc4hdmi1 [vc4-hdmi-1], device 0: MAI PCM i2s-hifi-0 [MAI PCM i2s-hifi-0]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+===== aplay -L (first 250 lines) =====
+null
+    Discard all samples (playback) or generate zero samples (capture)
+sysdefault
+    Default Audio Device
+hdmi_out
+hw:CARD=vc4hdmi0,DEV=0
+    vc4-hdmi-0, MAI PCM i2s-hifi-0
+    Direct hardware device without any conversions
+plughw:CARD=vc4hdmi0,DEV=0
+    vc4-hdmi-0, MAI PCM i2s-hifi-0
+    Hardware device with all software conversions
+sysdefault:CARD=vc4hdmi0
+    vc4-hdmi-0, MAI PCM i2s-hifi-0
+    Default Audio Device
+hdmi:CARD=vc4hdmi0,DEV=0
+    vc4-hdmi-0, MAI PCM i2s-hifi-0
+    HDMI Audio Output
+dmix:CARD=vc4hdmi0,DEV=0
+    vc4-hdmi-0, MAI PCM i2s-hifi-0
+    Direct sample mixing device
+hw:CARD=vc4hdmi1,DEV=0
+    vc4-hdmi-1, MAI PCM i2s-hifi-0
+    Direct hardware device without any conversions
+plughw:CARD=vc4hdmi1,DEV=0
+    vc4-hdmi-1, MAI PCM i2s-hifi-0
+    Hardware device with all software conversions
+sysdefault:CARD=vc4hdmi1
+    vc4-hdmi-1, MAI PCM i2s-hifi-0
+    Default Audio Device
+hdmi:CARD=vc4hdmi1,DEV=0
+    vc4-hdmi-1, MAI PCM i2s-hifi-0
+    HDMI Audio Output
+dmix:CARD=vc4hdmi1,DEV=0
+    vc4-hdmi-1, MAI PCM i2s-hifi-0
+    Direct sample mixing device
+===== ~/.asoundrc =====
+# Use HDMI0 with conversion (use HDMI1 by swapping vc4hdmi0 -> vc4hdmi1)
+pcm.hdmi_out {
+  type route
+  slave {
+    pcm "plughw:vc4hdmi0,0"
+    channels 2
+  }
+  # send mono to both channels if needed
+  ttable.0.0 1
+  ttable.0.1 1
+}
+
+pcm.!default "hdmi_out"
+
+ctl.!default {
+  type hw
+  card vc4hdmi0
+}
+===== /var/lib/alsa/asound.state =====
+state.vc4hdmi0 {
+	control.1 {
+		iface CARD
+		name 'HDMI Jack'
+		value false
+		comment {
+			access read
+			type BOOLEAN
+			count 1
+		}
+	}
+	control.2 {
+		iface PCM
+		name 'Playback Channel Map'
+		value.0 0
+		value.1 0
+		value.2 0
+		value.3 0
+		value.4 0
+		value.5 0
+		value.6 0
+		value.7 0
+		comment {
+			access 'read volatile'
+			type INTEGER
+			count 8
+			range '0 - 36'
+		}
+	}
+	control.3 {
+		iface PCM
+		name 'IEC958 Playback Mask'
+		value ffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+		comment {
+			access read
+			type IEC958
+			count 1
+		}
+	}
+	control.4 {
+		iface PCM
+		name 'IEC958 Playback Default'
+		value '0400000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+		comment {
+			access 'read write'
+			type IEC958
+			count 1
+		}
+	}
+	control.5 {
+		iface PCM
+		name ELD
+		value '100007006320000100000000000000004e14bc154e3535090703150750000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+		comment {
+			access 'read volatile'
+			type BYTES
+			count 128
+		}
+	}
+}
+state.vc4hdmi1 {
+	control.1 {
+		iface CARD
+		name 'HDMI Jack'
+		value false
+		comment {
+			access read
+			type BOOLEAN
+			count 1
+		}
+	}
+	control.2 {
+		iface PCM
+		name 'Playback Channel Map'
+		value.0 0
+		value.1 0
+		value.2 0
+		value.3 0
+		value.4 0
+		value.5 0
+		value.6 0
+		value.7 0
+		comment {
+			access 'read volatile'
+			type INTEGER
+			count 8
+			range '0 - 36'
+		}
+	}
+	control.3 {
+		iface PCM
+		name 'IEC958 Playback Mask'
+		value ffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+		comment {
+			access read
+			type IEC958
+			count 1
+		}
+	}
+	control.4 {
+		iface PCM
+		name 'IEC958 Playback Default'
+		value '0400000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+		comment {
+			access 'read write'
+			type IEC958
+			count 1
+		}
+	}
+	control.5 {
+		iface PCM
+		name ELD
+		value '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+		comment {
+			access 'read volatile'
+			type BYTES
+			count 128
+		}
+	}
+}
+===== amixer HDMI0 =====
+===== amixer HDMI1 =====
+===== Who/Displays =====
+myk410                2025-09-02 21:36
+myk410   tty1         2025-09-02 21:36
+myk410   pts/0        2025-09-02 21:36 (192.168.1.157)
+--- xrandr on :0 ---
+Screen 0: minimum 16 x 16, current 1920 x 1080, maximum 32767 x 32767
+XWAYLAND0 connected 1920x1080+0+0 (normal left inverted right x axis y axis) 0mm x 0mm
+   1920x1080     59.96*+
+   1440x1080     59.99  
+   1400x1050     59.98  
+   1280x1024     59.89  
+   1280x960      59.94  
+   1152x864      59.96  
+   1024x768      59.92  
+   800x600       59.86  
+   640x480       59.38  
+   320x240       59.52  
+   1680x1050     59.95  
+   1440x900      59.89  
+   1280x800      59.81  
+   720x480       59.71  
+   640x400       59.95  
+   320x200       58.96  
+   1600x900      59.95  
+   1368x768      59.88  
+   1280x720      59.86  
+   1024x576      59.90  
+   864x486       59.92  
+   720x400       59.55  
+   640x350       59.77  
+--- xrandr on :1 ---
+Can't open display :1
+===== VNC service =====
+● vncserver-virtuald.service - VNC Server in Virtual Mode daemon
+     Loaded: loaded (/lib/systemd/system/vncserver-virtuald.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2025-09-02 21:36:35 EDT; 4min 20s ago
+   Main PID: 758 (vncserver-virtu)
+      Tasks: 1 (limit: 9573)
+        CPU: 5ms
+     CGroup: /system.slice/vncserver-virtuald.service
+             └─758 /usr/bin/vncserver-virtuald -fg
+
+Sep 02 21:36:35 myk410 systemd[1]: Started vncserver-virtuald.service - VNC Server in Virtual Mode daemon.
+Sep 02 21:36:36 myk410 vncserver-virtuald[758]: main: started
+===== Processes (chromium/X/VNC) =====
+root         758       1  0 21:36 ?        00:00:00 /usr/bin/vncserver-virtuald -fg
+vnc          759       1  0 21:36 ?        00:00:00 /bin/sh /usr/sbin/wayvnc-run.sh
+vnc          781     759  0 21:36 ?        00:00:00 wayvnc --detached --gpu --config /etc/wayvnc/config --socket /tmp/wayvnc/wayvncctl.sock
+root        1062       1  0 21:36 ?        00:00:00 python /usr/sbin/wayvnc-control.py
+myk410      1827       1  0 21:36 ?        00:00:01 /usr/lib/chromium/chromium --js-flags=--no-decommit-pooled-pages --force-renderer-accessibility --enable-remote-extensions --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --enable-remote-extensions --load-extension --use-angle=gles --no-first-run --no-default-browser-check --password-store=basic https://www.patreon.com/home
+myk410      1860       1  0 21:36 ?        00:00:00 /usr/lib/chromium/chrome_crashpad_handler --monitor-self --monitor-self-annotation=ptype=crashpad-handler --database=/home/myk410/.config/chromium/Crash Reports --annotation=channel=built on Debian GNU/Linux 12 (bookworm) --annotation=lsb-release=Debian GNU/Linux 12 (bookworm) --annotation=plat=Linux --annotation=prod=Chrome_Linux --annotation=ver=139.0.7258.154 --initial-client-fd=5 --shared-client-connection
+myk410      1863    1827  0 21:36 ?        00:00:00 /usr/lib/chromium/chromium --type=zygote --no-zygote-sandbox --crashpad-handler-pid=0 --enable-crash-reporter=,built on Debian GNU/Linux 12 (bookworm) --change-stack-guard-on-fork=enable
+myk410      1864    1827  0 21:36 ?        00:00:00 /usr/lib/chromium/chromium --type=zygote --crashpad-handler-pid=0 --enable-crash-reporter=,built on Debian GNU/Linux 12 (bookworm) --change-stack-guard-on-fork=enable
+myk410      1867       1  0 21:36 ?        00:00:00 /usr/lib/chromium/chrome_crashpad_handler --no-periodic-tasks --monitor-self-annotation=ptype=crashpad-handler --database=/home/myk410/.config/chromium/Crash Reports --annotation=channel=built on Debian GNU/Linux 12 (bookworm) --annotation=lsb-release=Debian GNU/Linux 12 (bookworm) --annotation=plat=Linux --annotation=prod=Chrome_Linux --annotation=ver=139.0.7258.154 --initial-client-fd=4 --shared-client-connection
+myk410      1870    1864  0 21:36 ?        00:00:00 /usr/lib/chromium/chromium --type=zygote --crashpad-handler-pid=0 --enable-crash-reporter=,built on Debian GNU/Linux 12 (bookworm) --change-stack-guard-on-fork=enable
+myk410      1899    1863  0 21:36 ?        00:00:01 /usr/lib/chromium/chromium --type=gpu-process --enable-gpu-rasterization --ozone-platform=wayland --render-node-override=/dev/dri/renderD128 --use-angle=gles --crashpad-handler-pid=0 --enable-crash-reporter=,built on Debian GNU/Linux 12 (bookworm) --change-stack-guard-on-fork=enable --gpu-preferences=UAAAAAAAAAAgAAAAAAAAAAAAAAAAAGAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --shared-files --metrics-shmem-handle=4,i,5726302708174674674,6297358617597893706,262144 --field-trial-handle=3,i,12579655764169031028,10789546638482109354,262144 --disable-features=EyeDropper --variations-seed-version
+myk410      1905    1827  0 21:36 ?        00:00:00 /usr/lib/chromium/chromium --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-GB --service-sandbox-type=none --use-angle=gles --render-node-override=/dev/dri/renderD128 --crashpad-handler-pid=0 --enable-crash-reporter=,built on Debian GNU/Linux 12 (bookworm) --change-stack-guard-on-fork=enable --shared-files=v8_context_snapshot_data:100 --metrics-shmem-handle=4,i,5539200010080232727,881119191311260311,524288 --field-trial-handle=3,i,12579655764169031028,10789546638482109354,262144 --disable-features=EyeDropper --variations-seed-version
+myk410      1913    1870  0 21:36 ?        00:00:00 /usr/lib/chromium/chromium --type=utility --utility-sub-type=storage.mojom.StorageService --lang=en-GB --service-sandbox-type=utility --use-angle=gles --render-node-override=/dev/dri/renderD128 --crashpad-handler-pid=0 --enable-crash-reporter=,built on Debian GNU/Linux 12 (bookworm) --change-stack-guard-on-fork=enable --shared-files=v8_context_snapshot_data:100 --metrics-shmem-handle=4,i,5673617037353443267,3390017048070556055,524288 --field-trial-handle=3,i,12579655764169031028,10789546638482109354,262144 --disable-features=EyeDropper --variations-seed-version
+myk410      1937    1870  0 21:36 ?        00:00:00 /usr/lib/chromium/chromium --type=renderer --crashpad-handler-pid=0 --enable-crash-reporter=,built on Debian GNU/Linux 12 (bookworm) --change-stack-guard-on-fork=enable --js-flags=--no-decommit-pooled-pages --ozone-platform=wayland --lang=en-GB --num-raster-threads=2 --enable-main-frame-before-activation --renderer-client-id=6 --time-ticks-at-unix-epoch=-1756863392214735 --launch-time-ticks=18746255 --shared-files=v8_context_snapshot_data:100 --metrics-shmem-handle=4,i,254108691862777903,2766465422382709039,2097152 --field-trial-handle=3,i,12579655764169031028,10789546638482109354,262144 --disable-features=EyeDropper --variations-seed-version
+myk410      1938    1870  1 21:36 ?        00:00:04 /usr/lib/chromium/chromium --type=renderer --crashpad-handler-pid=0 --enable-crash-reporter=,built on Debian GNU/Linux 12 (bookworm) --change-stack-guard-on-fork=enable --js-flags=--no-decommit-pooled-pages --ozone-platform=wayland --lang=en-GB --num-raster-threads=2 --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1756863392214735 --launch-time-ticks=18749052 --shared-files=v8_context_snapshot_data:100 --metrics-shmem-handle=4,i,13660898458270954966,14329189163351690997,2097152 --field-trial-handle=3,i,12579655764169031028,10789546638482109354,262144 --disable-features=EyeDropper --variations-seed-version
+myk410      2091       1 42 21:40 ?        00:00:00 /usr/bin/Xwayland -auth /home/myk410/.Xauthority :0 -rootless -core -terminate 10 -listenfd 28 -listenfd 30 -displayfd 80 -wm 77
+===== Packages (audio/video) =====
+ii  alsa-topology-conf                   1.2.5.1-2                               all          ALSA topology configuration files
+ii  alsa-ucm-conf                        1.2.8-1                                 all          ALSA Use Case Manager configuration files
+ii  alsa-utils                           1.2.8-1+rpt1                            arm64        Utilities for configuring and using ALSA
+ii  apulse:arm64                         0.1.13-2                                arm64        PulseAudio emulation for ALSA
+ii  chromium                             1:139.0.7258.154-1~deb12u1+rpt1         arm64        web browser
+ii  chromium-common                      1:139.0.7258.154-1~deb12u1+rpt1         arm64        web browser - common resources used by the chromium packages
+ii  chromium-l10n                        1:139.0.7258.154-1~deb12u1+rpt1         all          web browser - language packs
+ii  chromium-sandbox                     1:139.0.7258.154-1~deb12u1+rpt1         arm64        web browser - setuid security sandbox for chromium
+ii  gstreamer1.0-alsa:arm64              1.22.0-3+rpt1+deb12u5                   arm64        GStreamer plugin for ALSA
+ii  libspandsp2:arm64                    0.0.6+dfsg-2+b1                         arm64        Telephony signal processing library
+ii  libspatialaudio0:arm64               0.3.0+git20180730+dfsg1-2+b1            arm64        library for ambisonic encoding and decoding (runtime files)
+ii  rpi-chromium-mods                    20250506                                arm64        Raspberry Pi-specific mods to Chromium
+===== dmesg (last 300 audio/display/hdmi lines) =====
+[Tue Sep  2 21:36:31 2025] Kernel command line: reboot=w coherent_pool=1M 8250.nr_uarts=1 pci=pcie_bus_safe cgroup_disable=memory numa_policy=interleave nvme.max_host_mem_size_mb=0  numa=fake=8 system_heap.max_order=0 smsc95xx.macaddr=2C:CF:67:18:2C:1F vc_mem.mem_base=0x3fc00000 vc_mem.mem_size=0x40000000  console=ttyAMA10,115200 console=tty1 root=PARTUUID=d85b469c-02 rootfstype=ext4 fsck.repair=yes rootwait quiet splash plymouth.ignore-serial-consoles cfg80211.ieee80211_regdom=US video=HDMI-A-1:1920x1080@60D
+[Tue Sep  2 21:36:31 2025] vc4_hvs 107c580000.hvs: bcm2712_iommu_of_xlate: MMU 1000005200.iommu
+[Tue Sep  2 21:36:31 2025] vc4_hvs 107c580000.hvs: bcm2712_iommu_probe_device: MMU 1000005200.iommu
+[Tue Sep  2 21:36:31 2025] vc4_hvs 107c580000.hvs: bcm2712_iommu_device_group: MMU 1000005200.iommu
+[Tue Sep  2 21:36:31 2025] vc4_hvs 107c580000.hvs: Adding to iommu group 1
+[Tue Sep  2 21:36:31 2025] vc4_hvs 107c580000.hvs: bcm2712_iommu_attach_dev: MMU 1000005200.iommu
+[Tue Sep  2 21:36:31 2025] vc4-drm axi:gpu: bcm2712_iommu_of_xlate: MMU 1000005200.iommu
+[Tue Sep  2 21:36:31 2025] vc4-drm axi:gpu: bcm2712_iommu_probe_device: MMU 1000005200.iommu
+[Tue Sep  2 21:36:31 2025] vc4-drm axi:gpu: bcm2712_iommu_device_group: MMU 1000005200.iommu
+[Tue Sep  2 21:36:31 2025] vc4-drm axi:gpu: Adding to iommu group 1
+[Tue Sep  2 21:36:31 2025] vc4-drm axi:gpu: bcm2712_iommu_attach_dev: MMU 1000005200.iommu
+[Tue Sep  2 21:36:31 2025] vc4-drm axi:gpu: bound 107c580000.hvs (ops vc4_hvs_ops [vc4])
+[Tue Sep  2 21:36:32 2025] vc4-drm axi:gpu: bound 107c580000.hvs (ops vc4_hvs_ops [vc4])
+[Tue Sep  2 21:36:32 2025] vc4-drm axi:gpu: bound 107c580000.hvs (ops vc4_hvs_ops [vc4])
+[Tue Sep  2 21:36:32 2025] vc4-drm axi:gpu: bound 107c580000.hvs (ops vc4_hvs_ops [vc4])
+[Tue Sep  2 21:36:32 2025] vc4-drm axi:gpu: bound 107c580000.hvs (ops vc4_hvs_ops [vc4])
+[Tue Sep  2 21:36:32 2025] vc4-drm axi:gpu: bound 107c580000.hvs (ops vc4_hvs_ops [vc4])
+[Tue Sep  2 21:36:32 2025] vc4-drm axi:gpu: bound 107c580000.hvs (ops vc4_hvs_ops [vc4])
+[Tue Sep  2 21:36:32 2025] vc4-drm axi:gpu: bound 107c580000.hvs (ops vc4_hvs_ops [vc4])
+[Tue Sep  2 21:36:32 2025] vc4-drm axi:gpu: bound 107c580000.hvs (ops vc4_hvs_ops [vc4])
+[Tue Sep  2 21:36:33 2025] vc4-drm axi:gpu: bound 107c580000.hvs (ops vc4_hvs_ops [vc4])
+[Tue Sep  2 21:36:33 2025] [drm] forcing HDMI-A-1 connector on
+[Tue Sep  2 21:36:33 2025] rc rc0: vc4-hdmi-0 as /devices/platform/soc@107c000000/107c701400.hdmi/rc/rc0
+[Tue Sep  2 21:36:33 2025] input: vc4-hdmi-0 as /devices/platform/soc@107c000000/107c701400.hdmi/rc/rc0/input1
+[Tue Sep  2 21:36:33 2025] input: vc4-hdmi-0 HDMI Jack as /devices/platform/soc@107c000000/107c701400.hdmi/sound/card0/input2
+[Tue Sep  2 21:36:33 2025] vc4-drm axi:gpu: bound 107c701400.hdmi (ops vc4_hdmi_ops [vc4])
+[Tue Sep  2 21:36:33 2025] rc rc1: vc4-hdmi-1 as /devices/platform/soc@107c000000/107c706400.hdmi/rc/rc1
+[Tue Sep  2 21:36:33 2025] input: vc4-hdmi-1 as /devices/platform/soc@107c000000/107c706400.hdmi/rc/rc1/input3
+[Tue Sep  2 21:36:33 2025] input: vc4-hdmi-1 HDMI Jack as /devices/platform/soc@107c000000/107c706400.hdmi/sound/card1/input4
+[Tue Sep  2 21:36:33 2025] vc4-drm axi:gpu: bound 107c706400.hdmi (ops vc4_hdmi_ops [vc4])
+[Tue Sep  2 21:36:33 2025] vc4-drm axi:gpu: bound 107c500000.mop (ops vc4_txp_ops [vc4])
+[Tue Sep  2 21:36:33 2025] vc4-drm axi:gpu: bound 107c501000.moplet (ops vc4_txp_ops [vc4])
+[Tue Sep  2 21:36:33 2025] vc4-drm axi:gpu: bound 107c410000.pixelvalve (ops vc4_crtc_ops [vc4])
+[Tue Sep  2 21:36:33 2025] vc4-drm axi:gpu: bound 107c411000.pixelvalve (ops vc4_crtc_ops [vc4])
+[Tue Sep  2 21:36:33 2025] [drm] Initialized vc4 0.0.0 for axi:gpu on minor 1
+[Tue Sep  2 21:36:33 2025] vc4-drm axi:gpu: [drm] fb0: vc4drmfb frame buffer device
+===== DRM EDID (if exposed) =====
+===== Chromium version =====
+/usr/bin/chromium
+Chromium 139.0.7258.154 built on Debian GNU/Linux 12 (bookworm)
+===== Fusers of /dev/snd =====
+===== DONE. Full log at: /tmp/pi-audio-diag.txt =====
