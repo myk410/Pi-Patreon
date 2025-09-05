@@ -17,47 +17,72 @@
       class="position-relative rounded-circle bg-white border mb-4"
       style="width: 200px; height: 200px;"
     >
-      <button
-        class="btn btn-secondary position-absolute top-50 start-0 translate-middle-y"
-        style="width: 80px; height: 80px;"
-        onclick="send('rewind')"
-      >
-        &#9194;
-      </button>
-      <button
-        class="btn btn-primary position-absolute top-0 start-50 translate-middle"
-        style="width: 80px; height: 80px;"
-        onclick="send('play')"
-      >
-        &#9658;
-      </button>
-      <button
-        class="btn btn-secondary position-absolute top-50 end-0 translate-middle-y"
-        style="width: 80px; height: 80px;"
-        onclick="send('fast-forward')"
-      >
-        &#9193;
-      </button>
-      <button
-        class="btn btn-secondary position-absolute bottom-0 start-50 translate-middle"
-        style="width: 80px; height: 80px;"
-        onclick="send('pause')"
-      >
-        &#10074;&#10074;
-      </button>
-    </div>
+      <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+          <button
+            class="btn btn-secondary position-absolute top-50 start-0 translate-middle-y"
+            style="width: 80px; height: 80px;"
+            onclick="send('rewind')"
+          >
+            &#9194;
+          </button>
+        </div>
+        <div class="col-5"></div>
+      </div>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-2">
+          <button
+            class="btn btn-primary position-absolute top-0 start-50 translate-middle"
+            style="width: 80px; height: 80px;"
+            onclick="send('play')">
+            &#9658;
+          </button>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-2">
+          <button
+            class="btn btn-secondary position-absolute top-50 end-0 translate-middle-y"
+            style="width: 80px; height: 80px;"
+            onclick="send('fast-forward')">
+            &#9193;
+          </button>
+        </div>
+        <div class="col-3"></div>
+      </div>
+      <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+          <button
+            class="btn btn-secondary position-absolute bottom-0 start-50 translate-middle"
+            style="width: 80px; height: 80px;"
+            onclick="send('pause')">
+            &#10074;&#10074;
+          </button>
+        </div>
+        <div class="col-5"></div>
+      </div>
 
-    <div class="d-flex justify-content-center">
-      <button
-        class="btn btn-secondary me-2"
-        onclick="send('skip-back')"
-      >
-        -10s
-      </button>
-      <button class="btn btn-secondary" onclick="send('skip-forward')">
-        +10s
-      </button>
-    </div>
+      <div class="d-flex justify-content-center">
+        <div class="row">
+          <div class="col-4"></div>
+          <div class="col-2">
+            <button
+              class="btn btn-secondary me-2"
+              onclick="send('skip-back')"
+            >
+              -10s
+            </button>
+          </div>
+          <div class="col-2">
+            <button class="btn btn-secondary" onclick="send('skip-forward')">
+              +10s
+            </button>
+          </div>
+          <div class="col-4"></div>
+        </div>
+      </div>
   </div>
 
   <script>
