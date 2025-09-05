@@ -13,25 +13,26 @@
   <style>
     .remote-grid {
       display: grid;
-      grid-template-columns: repeat(16, 1fr);
+      grid-template-columns: repeat(8, 1fr);
       gap: 0.5rem;
       width: 100%;
-      max-width: 640px;
+      max-width: 80vmin;
     }
     .remote-grid button {
       width: 100%;
       aspect-ratio: 1;
+      font-size: 2rem;
     }
-    .play { grid-column: 6 / span 2; grid-row: 1; }
-    .rewind { grid-column: 4 / span 2; grid-row: 2; }
-    .fast-forward { grid-column: 8 / span 2; grid-row: 2; }
-    .pause { grid-column: 6 / span 2; grid-row: 3; }
-    .skip-back { grid-column: 5 / span 2; grid-row: 4; }
-    .skip-forward { grid-column: 7 / span 2; grid-row: 4; }
+    .play { grid-column: 4 / span 2; grid-row: 1; }
+    .rewind { grid-column: 2 / span 2; grid-row: 2; }
+    .fast-forward { grid-column: 6 / span 2; grid-row: 2; }
+    .pause { grid-column: 4 / span 2; grid-row: 3; }
+    .skip-back { grid-column: 3 / span 2; grid-row: 4; }
+    .skip-forward { grid-column: 5 / span 2; grid-row: 4; }
   </style>
 </head>
-<body class="bg-light">
-  <div class="container-fluid px-0 py-5 d-flex flex-column align-items-center">
+<body class="bg-black text-white">
+  <div class="container-fluid px-0 d-flex flex-column justify-content-center align-items-center vh-100">
     <div class="remote-grid">
       <button class="btn btn-primary play" onclick="send('play')">
         &#9658;
