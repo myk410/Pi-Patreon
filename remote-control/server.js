@@ -59,15 +59,18 @@ function key(key, res) {
 }
 
 // Control endpoints
-// Control endpoints map simple button presses to YouTube-style shortcuts.
-// Many embedded Patreon videos use the same key bindings.
-app.post("/play",         (_, res) => key("k", res));
-app.post("/pause",        (_, res) => key("k", res));
-app.post("/play-pause",   (_, res) => key("k", res));
-app.post("/rewind",       (_, res) => key("Left", res)); // 5 seconds back
-app.post("/fast-forward", (_, res) => key("Right", res)); // 5 seconds forward
-app.post("/skip-back",    (_, res) => key("j", res)); // 10 seconds back
-app.post("/skip-forward", (_, res) => key("l", res)); // 10 seconds forward
+// Patreon embeds appear to use more conventional media shortcuts:
+// - Space toggles play/pause
+// - Arrow keys skip approximately 10 seconds
+app.post("/play",         (_, res) => key("space", res));
+app.post("/pause",        (_, res) => key("space", res));
+app.post("/play-pause",   (_, res) => key("space", res));
+app.post("/rewind",       (_, res) => key("Left", res)); // ~10 seconds back
+app.post("/fast-forward", (_, res) => key("Right", res)); // ~10 seconds forward
+// Duplicate mappings allow both sets of buttons in the UI to work
+// even if the player only supports arrow key shortcuts.
+app.post("/skip-back",    (_, res) => key("Left", res)); // ~10 seconds back
+app.post("/skip-forward", (_, res) => key("Right", res)); // ~10 seconds forward
 app.post("/toggle-fullscreen", (_, res) => key("f", res));
 
 // Start server
