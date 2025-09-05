@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video Remote</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    button { margin: 0.5rem; padding: 0.5rem 1rem; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <button onclick="send('play')">Play</button>
+  <button onclick="send('pause')">Pause</button>
+  <button onclick="send('rewind')">Rewind</button>
+  <button onclick="send('fast-forward')">Fast Forward</button>
+  <button onclick="send('skip-back')">-10s</button>
+  <button onclick="send('skip-forward')">+10s</button>
+
+  <script>
+    function send(cmd) {
+      fetch(`/${cmd}`, { method: 'POST' })
+        .catch(err => console.error('Request failed:', err));
+    }
+  </script>
+</body>
+</html>
