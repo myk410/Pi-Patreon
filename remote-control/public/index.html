@@ -10,79 +10,47 @@
     integrity="sha384-GNFcM98jAbfzME2YkdE+5EYXPLk6l2b7xvFeoJq6Digw1k3D6Z0fjQX+0Go9p+kv"
     crossorigin="anonymous"
   />
+  <style>
+    .remote-grid {
+      display: grid;
+      grid-template-columns: repeat(16, 1fr);
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 640px;
+    }
+    .remote-grid button {
+      width: 100%;
+      aspect-ratio: 1;
+    }
+    .play { grid-column: 6 / span 2; grid-row: 1; }
+    .rewind { grid-column: 4 / span 2; grid-row: 2; }
+    .fast-forward { grid-column: 8 / span 2; grid-row: 2; }
+    .pause { grid-column: 6 / span 2; grid-row: 3; }
+    .skip-back { grid-column: 5 / span 2; grid-row: 4; }
+    .skip-forward { grid-column: 7 / span 2; grid-row: 4; }
+  </style>
 </head>
 <body class="bg-light">
-  <div class="container py-5 d-flex flex-column align-items-center">
-    <div
-      class="position-relative rounded-circle bg-white border mb-4"
-      style="width: 200px; height: 200px;"
-    >
-      <div class="row">
-        <div class="col-5"></div>
-        <div class="col-2">
-          <button
-            class="btn btn-secondary position-absolute top-50 start-0 translate-middle-y"
-            style="width: 80px; height: 80px;"
-            onclick="send('rewind')"
-          >
-            &#9194;
-          </button>
-        </div>
-        <div class="col-5"></div>
-      </div>
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-2">
-          <button
-            class="btn btn-primary position-absolute top-0 start-50 translate-middle"
-            style="width: 80px; height: 80px;"
-            onclick="send('play')">
-            &#9658;
-          </button>
-        </div>
-        <div class="col-2"></div>
-        <div class="col-2">
-          <button
-            class="btn btn-secondary position-absolute top-50 end-0 translate-middle-y"
-            style="width: 80px; height: 80px;"
-            onclick="send('fast-forward')">
-            &#9193;
-          </button>
-        </div>
-        <div class="col-3"></div>
-      </div>
-      <div class="row">
-        <div class="col-5"></div>
-        <div class="col-2">
-          <button
-            class="btn btn-secondary position-absolute bottom-0 start-50 translate-middle"
-            style="width: 80px; height: 80px;"
-            onclick="send('pause')">
-            &#10074;&#10074;
-          </button>
-        </div>
-        <div class="col-5"></div>
-      </div>
-
-      <div class="d-flex justify-content-center">
-        <div class="row">
-          <div class="col-4"></div>
-          <div class="col-2">
-            <button
-              class="btn btn-secondary me-2"
-              onclick="send('skip-back')"
-            >
-              -10s
-            </button>
-          </div>
-          <div class="col-2">
-            <button class="btn btn-secondary" onclick="send('skip-forward')">
-              +10s
-            </button>
-          </div>
-          <div class="col-4"></div>
-        </div>
-      </div>
+  <div class="container-fluid px-0 py-5 d-flex flex-column align-items-center">
+    <div class="remote-grid">
+      <button class="btn btn-primary play" onclick="send('play')">
+        &#9658;
+      </button>
+      <button class="btn btn-secondary rewind" onclick="send('rewind')">
+        &#9194;
+      </button>
+      <button class="btn btn-secondary fast-forward" onclick="send('fast-forward')">
+        &#9193;
+      </button>
+      <button class="btn btn-secondary pause" onclick="send('pause')">
+        &#10074;&#10074;
+      </button>
+      <button class="btn btn-secondary skip-back" onclick="send('skip-back')">
+        -10s
+      </button>
+      <button class="btn btn-secondary skip-forward" onclick="send('skip-forward')">
+        +10s
+      </button>
     </div>
   </div>
 
