@@ -37,13 +37,16 @@ jobs:
           else
             echo "No existing content to back up."
           fi
-
+      
       - name: Sync to /home/myk410/Pi-Patreon
+        env:
+          PI_TARGET: /home/myk410/Pi-Patreon
         run: |
           mkdir -p "$PI_TARGET"
-          rsync -rlDz --delete \
-            --omit-dir-times \
+          rsync -rltDz --delete \
             --no-o --no-g \
+            --omit-dir-times \
+            --chmod=Du+rwx,Dg+rwx,Fu+rw,Fg+rw \
             --exclude ".git/" \
             --exclude ".github/" \
             --exclude "node_modules/" \
