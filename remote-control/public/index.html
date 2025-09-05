@@ -53,9 +53,14 @@
         +10s
       </button>
     </div>
+    <div class="position-fixed bottom-0 start-0 w-100 mb-3 text-center">
+      <button class="btn btn-secondary" onclick="send('toggle-fullscreen')">
+        Toggle Fullscreen
+      </button>
+    </div>
   </div>
 
-    <script>
+  <script>
     function send(cmd) {
       fetch(`/${cmd}`, { method: 'POST' })
         .catch(err => console.error('Request failed:', err));
